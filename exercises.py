@@ -18,6 +18,7 @@ class Game():
     def play_game(self):
         print("Welcome Let's Play Tic Tac Toe.")
         self.render()
+        self.get_move()
         
     def print_board(self):
         b = self.board
@@ -41,6 +42,16 @@ class Game():
     def render(self):
         self.print_board()
         self.print_message()
-
+    
+    def get_move(self):
+        while True:
+            move = input(f"Enter a valid move (EX. A1): ").lower()
+        
+            if move in self.board and self.board[move] is None:
+                self.board[move] = self.turn
+                break
+            else:
+                print("Invalid input. Choose an empty board space.")
+    
 game_instance = Game()
 game_instance.play_game()
