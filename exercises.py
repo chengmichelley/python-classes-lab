@@ -20,6 +20,7 @@ class Game():
         self.render()
         self.get_move()
         self.check_for_winner()
+        self.check_for_tie()
         
     def print_board(self):
         b = self.board
@@ -69,6 +70,12 @@ class Game():
             b['c1'] and (b['c1'] == b['c2'] == b['c3'])
         ):
             self.winner = self.turn
+    
+    def check_for_tie(self):
+        b = self.board
+        if self.winner == None and None not in b.values():
+            self.tie = True
+            print("Tie! There is no winner.")
       
 game_instance = Game()
 game_instance.play_game()
