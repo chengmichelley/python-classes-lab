@@ -16,6 +16,7 @@ class Game():
         }
 
     def play_game(self):
+        
         print("Welcome Let's Play Tic Tac Toe.")
         
         while not self.winner and not self.tie:
@@ -25,6 +26,8 @@ class Game():
             self.check_for_tie()
             if not self.winner and not self.tie:
                 self.switch_turn()
+        
+        self.render()
         
     def print_board(self):
         b = self.board
