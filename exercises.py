@@ -19,6 +19,7 @@ class Game():
         print("Welcome Let's Play Tic Tac Toe.")
         self.render()
         self.get_move()
+        self.check_for_winner()
         
     def print_board(self):
         b = self.board
@@ -44,14 +45,30 @@ class Game():
         self.print_message()
     
     def get_move(self):
+        b = self.board
         while True:
             move = input(f"Enter a valid move (EX. A1): ").lower()
         
-            if move in self.board and self.board[move] is None:
-                self.board[move] = self.turn
+            if move in b and b[move] is None:
+                b[move] = self.turn
                 break
             else:
                 print("Invalid input. Choose an empty board space.")
     
+    def check_for_winner(self):
+        b = self.board
+        
+        if (
+            b['a1'] and (b['a1'] == b['b1'] == b['c1']) or 
+            b['a2'] and (b['a2'] == b['b2'] == b['c2']) or 
+            b['a3'] and (b['a3'] == b['b3'] == b['c3']) or 
+            b['a1'] and (b['a1'] == b['b2'] == b['c3']) or 
+            b['a3'] and (b['a3'] == b['b2'] == b['c1']) or 
+            b['a1'] and (b['a1'] == b['a2'] == b['a3']) or 
+            b['b1'] and (b['b1'] == b['b2'] == b['b3']) or
+            b['c1'] and (b['c1'] == b['c2'] == b['c3'])
+        ):
+            self.winner = self.turn
+      
 game_instance = Game()
 game_instance.play_game()
