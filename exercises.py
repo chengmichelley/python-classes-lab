@@ -14,20 +14,31 @@ class Game():
             "b3": None,
             "c3": None,
         }
+        
+        self.scores = {"X": 0, "O": 0, "ties": 0}
 
     def play_game(self):
         
         print("Welcome Let's Play Tic Tac Toe.")
         
-        while not self.winner and not self.tie:
-            self.render()
-            self.get_move()
-            self.check_for_winner()
-            self.check_for_tie()
-            if not self.winner and not self.tie:
-                self.switch_turn()
+        while True:
+            while not self.winner and not self.tie:
+                self.render()
+                self.get_move()
+                self.check_for_winner()
+                self.check_for_tie()
+                if not self.winner and not self.tie:
+                    self.switch_turn()
         
-        self.render()
+            self.update_scores()
+            self.render()
+        
+            if not self.prompt_play_again():
+                print("Thanks for playing! Final Records:")
+                print(f"Play X: {self.scores['X']} wins | Play O: {self.scores['O']} wins | Ties: {self.scores['ties']}")
+                break
+        
+            self.reset_game()
         
     def print_board(self):
         b = self.board
@@ -47,6 +58,8 @@ class Game():
             print(f"{self.winner} wins the game!")
         else: 
             print(f"It's player {self.turn}'s turn!")
+            
+        print(f"[Record -> X: {self.scores['X']} | O: {self.scores['O']} | Ties: {self.scores['ties']}]")
 
     def render(self):
         self.print_board()
@@ -89,6 +102,27 @@ class Game():
             self.turn = "O"
         else:
             self.turn = "X"
+            
+    def update_scores(self):
+        if self.winner:
+            self.scores[self.winner] += 1
+        elif self.tie:
+            self.scores["ties"] += 1
+            
+    def prompt_play_again(self):
+        while True:
+            choice = input("Would you like to play again? (yes/no): ").lower()
+            if choice in ["y", "yes"]:
+                return True
+            if choice in ["n", "no"]:
+                return False
+            print("Invalid response. Please select 'yes' or 'no' .")
+    
+    def reset_game(self):
+        self.turn = "X"
+        self.tie = False
+        self.winner = None
+        self.board = {key: None for key in self.board}
       
 game_instance = Game()
 game_instance.play_game()
