@@ -19,7 +19,7 @@ class Game():
 
     def play_game(self):
         
-        print("Welcome Let's Play Tic Tac Toe.")
+        print("Welcome! Let's Play Tic Tac Toe.")
         
         while True:
             while not self.winner and not self.tie:
@@ -41,14 +41,14 @@ class Game():
             self.reset_game()
         
     def print_board(self):
-        b = self.board
+        board = self.board
         print(f"""
             A   B   C
-        1)  {b['a1'] or ' '} | {b['b1'] or ' '} | {b['c1'] or ' '}
+        1)  {board['a1'] or ' '} | {board['b1'] or ' '} | {board['c1'] or ' '}
         ----------
-        2)  {b['a2'] or ' '} | {b['b2'] or ' '} | {b['c2'] or ' '}
+        2)  {board['a2'] or ' '} | {board['b2'] or ' '} | {board['c2'] or ' '}
         ----------
-        3)  {b['a3'] or ' '} | {b['b3'] or ' '} | {b['c3'] or ' '}
+        3)  {board['a3'] or ' '} | {board['b3'] or ' '} | {board['c3'] or ' '}
         """)
 
     def print_message(self):
@@ -66,37 +66,40 @@ class Game():
         self.print_message()
     
     def get_move(self):
-        b = self.board
+        board = self.board
         while True:
-            move = input(f"Enter a valid move (EX. A1): ").lower()
+            move = input(f"Enter a valid move (EX. a1): ").lower()
         
-            if move in b and b[move] is None:
-                b[move] = self.turn
+            if move in board and board[move] is None:
+                board[move] = self.turn
                 break
             else:
                 print("Invalid input. Choose an empty board space.")
     
     def check_for_winner(self):
-        b = self.board
+        board = self.board
         
-        if (
-            b['a1'] and (b['a1'] == b['b1'] == b['c1']) or 
-            b['a2'] and (b['a2'] == b['b2'] == b['c2']) or 
-            b['a3'] and (b['a3'] == b['b3'] == b['c3']) or 
-            b['a1'] and (b['a1'] == b['b2'] == b['c3']) or 
-            b['a3'] and (b['a3'] == b['b2'] == b['c1']) or 
-            b['a1'] and (b['a1'] == b['a2'] == b['a3']) or 
-            b['b1'] and (b['b1'] == b['b2'] == b['b3']) or
-            b['c1'] and (b['c1'] == b['c2'] == b['c3'])
-        ):
-            self.winner = self.turn
+        winning_combinations = [
+            ['a1', 'b1', 'c1'],
+            ['a2', 'b2', 'c2'],
+            ['a3', 'b3', 'c3'],
+            ['a1', 'a2', 'a3'],
+            ['b1', 'b2', 'b3'],
+            ['c1', 'c2', 'c3'],
+            ['a1', 'b2', 'c3'],
+            ['c1', 'b2', 'a3']
+        ]
+        
+        for tile1, tile2, tile3 in winning_combinations:
+            if board[tile1] and (board[tile1] == board[tile2] == board[tile3]):
+                self.winner = self.turn
+                break
     
     def check_for_tie(self):
-        b = self.board
-        if self.winner == None and None not in b.values():
+        board = self.board
+        if self.winner is None and None not in board.values():
             self.tie = True
-            print("Tie! There is no winner.")
-            
+                        
     def switch_turn(self):
         if self.turn == "X" :
             self.turn = "O"
